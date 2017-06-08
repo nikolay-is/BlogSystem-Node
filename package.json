@@ -1,0 +1,39 @@
+{
+  "name": "blog-system",
+  "version": "0.0.1",
+  "description": "Blog System Node Express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikolay-is/BlogSystem-Node.git"
+  },
+  "keywords": [
+    "Blog",
+    "System",
+    "Node",
+    "Express"
+  ],
+  "author": "NIS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikolay-is/BlogSystem-Node/issues"
+  },
+  "homepage": "https://github.com/nikolay-is/BlogSystem-Node#readme",
+  "devDependencies": {
+    "standard": "10.0.2",
+    "typings": "2.1.1"
+  },
+  "dependencies": {
+    "body-parser": "1.17.2",
+    "cookie-parser": "1.4.3",
+    "express": "4.15.3",
+    "express-handlebars": "3.0.0",
+    "express-session": "1.15.3",
+    "mongoose": "4.10.5",
+    "passport": "0.3.2",
+    "passport-local": "1.0.0"
+  }
+}

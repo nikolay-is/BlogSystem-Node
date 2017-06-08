@@ -1,0 +1,25 @@
+global:
+npm install nodemon -g
+npm install mongodb -g
+npm install typings -g
+npm install standard -g
+npm install pug -g
+npm install pug-cli -g
+npm install gulp-cli -g
+
+
+npm install standard --save-dev --save-exact
+npm install typings --save-dev --save-exact
+
+typings install express --save
+typings install mongoose --save
+
+npm install express --save --save-exact
+npm install mongoose --save --save-exact
+
+npm install body-parser --save --save-exact
+npm install cookie-parser --save --save-exact
+npm install express-handlebars --save --save-exact
+npm install express-session --save --save-exact
+npm install passport --save --save-exact
+npm install passport-local --save --save-exact
