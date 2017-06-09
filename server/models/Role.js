@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 let roleSchema = mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  user: [ { type: mongoose.Schema.Types.ObjectId, ref: 'User' } ]
+  users: [ { type: mongoose.Schema.Types.ObjectId, ref: 'User' } ]
 })
 
 let Role = mongoose.model('Role', roleSchema)
 
-module.exports.Role
+module.exports = Role
 
 module.exports.initialize = () => {
   Role.findOne({ name: 'Admin' })

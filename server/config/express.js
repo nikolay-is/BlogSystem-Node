@@ -26,10 +26,10 @@ module.exports = (app) => {
     if (req.user) {
       res.locals.currentUser = req.user // save user from res to req.locals
 
-      // res.locals.user.isInRole('Admin')
-      //   .then(isAdmin => {
-      //     res.locals.isAdmin = isAdmin
-      //   })
+      res.locals.user.isInRole('Admin')
+        .then(isAdmin => {
+          res.locals.isAdmin = isAdmin
+        })
     }
 
     next()

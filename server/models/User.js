@@ -5,9 +5,9 @@ const encryption = require('../utilities/encryption')
 const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
 
 let userSchema = mongoose.Schema({
-  email: { type: String, required: true, unique: true },
+  email: { type: String, REQUIRED_VALIDATION_MESSAGE, unique: true },
   hashedPass: { type: String },
-  fullName: { type: String, required: true },
+  fullName: { type: String, REQUIRED_VALIDATION_MESSAGE },
   articles: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Article' } ],
   roles: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Role' } ],
   salt: { type: String, required: true }
@@ -44,9 +44,14 @@ let User = mongoose.model('User', userSchema)
 module.exports = User
 
 module.exports.seedAdminUser = () => {
-  User.find({})
-    .then(users => {
-      if (users.lenght > 0) return 
+  User.findOne({email: 'admin@admin.com'})
+    .then(user => {
+      // console.log(`userlen: ${user.lenght}`)
+      if (user) {
+        console.log(`Database has some Admin user`)
+        return // .lenght > 0
+      }
+      console.log(`Empty User in database!`)
 
       Role.findOne({name: 'Admin'})
         .then(role => {
@@ -74,6 +79,7 @@ module.exports.seedAdminUser = () => {
               }
             })
           })
+          // .catch(err => console.log(err))
         })
     })
 }
