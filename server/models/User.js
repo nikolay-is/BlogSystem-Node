@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const Role = mongoose.model('Role')
+// const Role = mongoose.model('Role')
+const Role = require('./Role')
 const encryption = require('../utilities/encryption')
 
 const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
