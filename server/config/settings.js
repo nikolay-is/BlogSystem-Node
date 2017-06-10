@@ -5,7 +5,6 @@ let port = process.env.PORT || 3000
 const dbPort = 27017
 const dbName = 'blog-system'
 
-
 module.exports = {
   development: {
     rootPath: rootPath,

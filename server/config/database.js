@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 
+// const Role = require('../models/Role')
+// const User = require('../models/User')
+
 mongoose.Promise = global.Promise
 
 module.exports = (config) => {
@@ -16,7 +19,9 @@ module.exports = (config) => {
 
     // Add seedData here
     require('../models/Role').initialize()
+    // Role.initialize()
     require('../models/User').seedAdminUser()
+    // User.seedAdminUser()
     // require Article
   })
 

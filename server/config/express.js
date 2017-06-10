@@ -6,7 +6,7 @@ const session = require('express-session')
 const passport = require('passport')
 
 module.exports = (app) => {
-  app.engine('handlebars', handlebars({ 
+  app.engine('handlebars', handlebars({
     defaultLayout: 'main'
   }))
   app.set('view engine', 'handlebars')
@@ -25,6 +25,7 @@ module.exports = (app) => {
   app.use((req, res, next) => {
     if (req.user) {
       res.locals.currentUser = req.user // save user from res to req.locals
+      console.log(`res.locals.currentUser: ${res.locals.currentUser}`)
 
       res.locals.user.isInRole('Admin')
         .then(isAdmin => {

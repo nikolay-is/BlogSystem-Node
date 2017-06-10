@@ -26,6 +26,7 @@ module.exports = {
           // reqUser.error = errorMsg
           res.locals.globalError = errorMsg
           res.render('users/register', reqUser)
+          // ??? returm
         } else {
           let salt = encryption.generateSalt()
           let hashedPassword = encryption.generateHashedPassword(salt, reqUser.password)
@@ -57,7 +58,7 @@ module.exports = {
                           // reqUser.error = err.message
                           res.locals.globalError = err
                           res.render('users/register', user)
-                          return
+                          // return ???
                         }
 
                         res.redirect('/')
@@ -89,7 +90,7 @@ module.exports = {
           res.render('users/login')
           return
         }
-
+        // console.log(`1: ${user}`)
         req.logIn(user, (err, user) => {
           if (err) {
             res.locals.globalError = 'Invalid user data!'
