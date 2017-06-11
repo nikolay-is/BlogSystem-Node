@@ -13,7 +13,7 @@ module.exports = {
     let reqUser = req.body
     // Add validations!
 
-    User.findOne({email: reqUser.email})
+    User.findOne({username: reqUser.username})
       .then(user => {
         let errorMsg = ''
         if (user) {
@@ -32,6 +32,7 @@ module.exports = {
           let hashedPassword = encryption.generateHashedPassword(salt, reqUser.password)
 
           let userObject = {
+            username: reqUser.username,
             email: reqUser.email,
             hashedPass: hashedPassword,
             fullName: reqUser.fullName,
@@ -76,8 +77,8 @@ module.exports = {
   },
 
   loginPost: (req, res) => {
-    let reqUser = req.body
-    User.findOne({email: reqUser.email})
+    let userToLogIn = req.body
+    User.findOne({username: userToLogIn.username})
       .then(user => {
         if (!user) {
           res.locals.globalError = 'Invalid user data!'
@@ -85,16 +86,18 @@ module.exports = {
           return
         }
 
-        if (!user.authenticate(reqUser.password)) {
+        if (!user.authenticate(userToLogIn.password)) {
           res.locals.globalError = 'Invalid user data!'
           res.render('users/login')
           return
         }
-        // console.log(`1: ${user}`)
-        req.logIn(user, (err, user) => {
-          if (err) {
+
+        req.logIn(user, (error, user) => {
+          if (error) {
             res.locals.globalError = 'Invalid user data!'
-            res.render('users/login')
+            res.render('users/login', user)
+
+            return
           }
 
           res.redirect('/')

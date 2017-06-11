@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-// const Role = require('../models/Role')
-// const User = require('../models/User')
+const Role = require('../models/Role')
+const User = require('../models/User')
 
 mongoose.Promise = global.Promise
 
@@ -18,10 +18,10 @@ module.exports = (config) => {
     console.log(`MongoDB connected to "${config.dbName}" database on port: ${config.dbPort}`)
 
     // Add seedData here
-    require('../models/Role').initialize()
-    // Role.initialize()
-    require('../models/User').seedAdminUser()
-    // User.seedAdminUser()
+    // require('../models/Role').initialize()
+    Role.initialize()
+    // require('../models/User').seedAdminUser()
+    User.seedAdminUser()
     // require Article
   })
 

@@ -24,13 +24,12 @@ module.exports = (app) => {
 
   app.use((req, res, next) => {
     if (req.user) {
-      res.locals.currentUser = req.user // save user from res to req.locals
-      console.log(`res.locals.currentUser: ${res.locals.currentUser}`)
+      res.locals.currentUser = req.user
 
-      res.locals.user.isInRole('Admin')
-        .then(isAdmin => {
-          res.locals.isAdmin = isAdmin
-        })
+      res.locals.currentUser.isInRole('Admin')
+      .then(isAdmin => {
+        res.locals.isAdmin = isAdmin
+      })
     }
 
     next()

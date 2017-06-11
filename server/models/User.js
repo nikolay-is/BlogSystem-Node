@@ -6,9 +6,10 @@ const encryption = require('../utilities/encryption')
 const REQUIRED_VALIDATION_MESSAGE = '{PATH} is required'
 
 let userSchema = mongoose.Schema({
-  email: { type: String, REQUIRED_VALIDATION_MESSAGE, unique: true },
+  username: { type: String, required: REQUIRED_VALIDATION_MESSAGE, unique: true },
+  email: { type: String, required: REQUIRED_VALIDATION_MESSAGE, unique: true },
   hashedPass: { type: String },
-  fullName: { type: String, REQUIRED_VALIDATION_MESSAGE },
+  fullName: { type: String },
   articles: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Article' } ],
   roles: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Role' } ],
   salt: { type: String, required: true }
@@ -17,6 +18,16 @@ let userSchema = mongoose.Schema({
 userSchema.method({
   authenticate: function (password) {
     return encryption.generateHashedPassword(this.salt, password) === this.hashedPass
+  },
+  isInRole: function (roleName) {
+    return Role.findOne({name: roleName})
+      .then(role => {
+        if (!role) {
+          return false
+        }
+        let isInRole = this.roles.indexOf(role.id) !== -1
+        return isInRole
+      })
   }
   // ,
   // isAuthor: function(article) {
@@ -45,7 +56,7 @@ let User = mongoose.model('User', userSchema)
 module.exports = User
 
 module.exports.seedAdminUser = () => {
-  User.findOne({email: 'admin@admin.com'})
+  User.findOne({username: 'admin'})
     .then(user => {
       // console.log(`userlen: ${user.lenght}`)
       if (user) {
@@ -57,12 +68,13 @@ module.exports.seedAdminUser = () => {
       Role.findOne({name: 'Admin'})
         .then(role => {
           let salt = encryption.generateSalt()
-          let hashedPass = encryption.generateHashedPassword(salt, '123456')
+          let hashedPass = encryption.generateHashedPassword(salt, '123')
 
           let roles = []
           roles.push(role.id)
 
           User.create({
+            username: 'admin',
             email: 'admin@admin.com',
             hashedPass: hashedPass,
             fullName: 'Admin',
