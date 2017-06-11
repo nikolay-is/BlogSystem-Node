@@ -22,6 +22,12 @@ module.exports = (app) => {
   app.get('/article/delete/:id', auth.isInRole('Admin'), controllers.article.deleteGet)
   app.post('/article/delete/:id', auth.isInRole('Admin'), controllers.article.deletePost)
 
+  app.post('/article/comment/:id', auth.isAuthenticated, controllers.comment.addPost)
+  app.get('/comment/edit/:id', auth.isAuthenticated, controllers.comment.editGet)
+  app.post('/comment/edit/:id', auth.isAuthenticated, controllers.comment.editPost)
+  app.get('/comment/delete/:id', auth.isInRole('Admin'), controllers.comment.deleteGet)
+  app.post('/comment/delete/:id', auth.isInRole('Admin'), controllers.comment.deletePost)
+
   app.all('*', (req, res) => {
     res.status(404)
     res.send('404 Not Found!')

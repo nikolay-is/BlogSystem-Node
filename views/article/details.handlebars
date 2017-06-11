@@ -24,7 +24,7 @@
 {{#each comments}}
   <p>{{this.author.username}}</p>
   <p>{{this.date}}</p>
-  <p>{{this.content}}</p>
+  <p>{{this.comment}}</p>
 
   {{#ifCond article.author.id ../currentUser.id}}
     <a href="/comment/edit/{{../this._id}}">Edit</a>

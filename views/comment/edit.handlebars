@@ -1,0 +1,14 @@
+<h2>Edit comment</h2>
+
+ <h3>{{comment.article.title}}</h3>
+ <p>{{comment.article.content}}</p>
+ <p>{{comment.article.date}}</p>
+ <p>{{comment.article.author.username}}</p>
+ 
+<form method="POST">
+    <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea name="content" rows="10" required>{{comment.content}}</textarea>
+    </div>
+    <input type="submit" value="Edit" />
+</form>
