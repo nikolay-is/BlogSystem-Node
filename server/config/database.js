@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const Role = require('../models/Role')
 const User = require('../models/User')
 
+require('../models/Article')
+require('../models/Comment')
+
 mongoose.Promise = global.Promise
 
 module.exports = (config) => {

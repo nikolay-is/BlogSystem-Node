@@ -13,6 +13,15 @@ module.exports = (app) => {
 
   app.post('/users/logout', controllers.users.logout)
 
+  app.get('/article/add', auth.isAuthenticated, controllers.article.addGet)
+  app.post('/article/add', auth.isAuthenticated, controllers.article.addPost)
+  app.get('/article/list', controllers.article.list)
+  app.get('/article/details/:id', auth.isAuthenticated, controllers.article.details)
+  app.get('/article/edit/:id', auth.isAuthenticated, controllers.article.editGet)
+  app.post('/article/edit/:id', auth.isAuthenticated, controllers.article.editPost)
+  app.get('/article/delete/:id', auth.isInRole('Admin'), controllers.article.deleteGet)
+  app.post('/article/delete/:id', auth.isInRole('Admin'), controllers.article.deletePost)
+
   app.all('*', (req, res) => {
     res.status(404)
     res.send('404 Not Found!')

@@ -19,6 +19,15 @@ userSchema.method({
   authenticate: function (password) {
     return encryption.generateHashedPassword(this.salt, password) === this.hashedPass
   },
+  isAuthor: function (article) {
+    if (!article) {
+      return false
+    }
+
+    let isAuthor = article.author.equals(this.id)
+
+    return isAuthor
+  },
   isInRole: function (roleName) {
     return Role.findOne({name: roleName})
       .then(role => {
