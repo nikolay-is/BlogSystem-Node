@@ -1,0 +1,40 @@
+<h2>{{article.title}}</h2>
+<p>{{article.content}}</p>
+<p>Author: <strong>{{article.author.username}}</strong></p>
+<p>Date: <i>{{article.date}}</i></p>
+
+{{#ifCond article.author.id currentUser.id}}
+  <a href="/article/edit/{{article._id}}">Edit</a>
+  {{#if isAdmin}}
+    <a href="/article/delete/{{article._id}}">Delete</a>
+  {{/if}}
+{{else}}
+  {{#if isAdmin}}
+    <a href="/article/edit/{{article._id}}">Edit</a>
+    <a href="/article/delete/{{article._id}}">Delete</a>
+  {{/if}}
+{{/ifCond}}
+
+<form action="/article/comment/{{article._id}}" method="post">
+    <textarea name="content" placeholder="comment ..." rows="10" required></textarea>
+    <input type="submit" value="Comment" />
+</form>
+
+<h1>Comments</h1>
+{{#each comments}}
+  <p>{{this.author.username}}</p>
+  <p>{{this.date}}</p>
+  <p>{{this.content}}</p>
+
+  {{#ifCond article.author.id ../currentUser.id}}
+    <a href="/comment/edit/{{../this._id}}">Edit</a>
+    {{#if ../isAdmin}}
+      <a href="/comment/delete/{{this._id}}">Delete</a>
+    {{/if}}
+  {{else}}
+    {{#if ../isAdmin}}
+        <a href="/comment/edit/{{this._id}}">Edit</a>
+        <a href="/comment/delete/{{this._id}}">Delete</a>
+    {{/if}}
+  {{/ifCond}}
+{{/each}}

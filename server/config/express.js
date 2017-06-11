@@ -4,9 +4,11 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const passport = require('passport')
+const helpers = require('./handlebars-helpers')
 
 module.exports = (app) => {
   app.engine('handlebars', handlebars({
+    helpers: helpers,
     defaultLayout: 'main'
   }))
   app.set('view engine', 'handlebars')

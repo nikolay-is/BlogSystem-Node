@@ -12,7 +12,7 @@ module.exports = {
 
     Article.create({
       title: reqArticle.title,
-      content: reqArticle.comment,
+      content: reqArticle.content,
       author: reqArticle.author
     })
     .then(() => {
@@ -49,7 +49,7 @@ module.exports = {
           nextPage: page + 1,
           search: search
         }
-        res.render('articles/list', articlesObj)
+        res.render('article/list', articlesObj)
       })
   },
 
@@ -63,16 +63,17 @@ module.exports = {
         Comment.find({article: article._id})
           .populate('author')
           .sort('date')
-          .then(comment => {
-            res.render('article/details', {
+          .then(comments => {
+            let detailsObj = {
               article: article,
-              comments: comment
-            })
-          .catch(err => {
-            res.locals.globalError = err
-            res.redirect('/artile/list')
+              comments: comments
+            }
+            res.render('article/details', detailsObj)
           })
-          })
+      })
+      .catch(err => {
+        res.locals.globalError = err
+        res.redirect('/artile/list')
       })
     } else {
       res.redirect('/users/login')
@@ -86,16 +87,14 @@ module.exports = {
       .populate('author')
       .then(article => {
         req.user.isInRole('Admin').then(isAdmin => {
-          if (!isAdmin && !req.iser.isAuthor(article)) {
+          if (!isAdmin && !req.user.isAuthor(article)) {
             res.redirect('/users/login')
           }
-
-          res.render('article/edit', {
-            article: {
-              title: article.title,
-              content: article.comment
-            }
-          })
+          let editedObj = {
+            title: article.title,
+            content: article.content
+          }
+          res.render('article/edit', {article: editedObj})
         })
       }).catch(err => {
         res.locals.globalError = err
@@ -126,10 +125,16 @@ module.exports = {
   },
   deleteGet: (req, res) => {
     let id = req.params.id
-
     Article.findById(id)
       .then(article => {
-        res.render('article/delete')
+        let deletedObj = {
+          title: article.title,
+          content: article.content
+        }
+        if (!req.user.isInRole('Admin')) {
+          res.redirect('/article/list')
+        }
+        res.render(`article/delete`, {article: deletedObj})
       })
   },
 
@@ -139,12 +144,12 @@ module.exports = {
       .then(article => {
         Comment.remove({article: article._id})
           .then(() => {
-            res.redirect('article/list')
+            res.redirect('/article/list')
           })
       })
       .catch(err => {
         res.locals.globalError = err
-        res.redirect(`article/details/${id}`)
+        res.redirect(`/article/details/${id}`)
       })
   }
 }

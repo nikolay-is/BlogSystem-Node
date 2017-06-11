@@ -8,9 +8,10 @@
   <div class="container">
     <ul class="menu">
       <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
       <li></li>
+      <li><a href="/article/list">List article</a></li>
       {{#if currentUser}}
+      <li><a href="/article/add">Add article</a></li>
         {{#if isAdmin}}
           <li>{{currentUser.username}} - Administrator</li>
         {{else}}
@@ -20,11 +21,11 @@
             <form id="logout-form" action="/users/logout" method="POST"></form>
             <a href="javascript:document.getElementById('logout-form').submit()">Logout</a>
         </li>
-        
       {{else}}
         <li><a href="/users/register">Register</a></li>
         <li><a href="/users/login">Login</a></li>
       {{/if}}
+      <li><a href="/about">About</a></li>
     </ul>
     {{#if globalError}}
       <h3>{{globalError}}</h3>

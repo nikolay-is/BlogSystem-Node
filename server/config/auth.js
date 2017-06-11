@@ -6,9 +6,18 @@ module.exports = {
       res.redirect('/users/login')
     }
   },
+  // isInRole: (role) => {
+  //   return (req, res, next) => {
+  //     if (req.isAuthenticated() && req.user.roles.indexOf(role) > -1) {
+  //       next()
+  //     } else {
+  //       res.redirect('/users/login')
+  //     }
+  //   }
+  // },
   isInRole: (role) => {
-    return (res, req, next) => {
-      if (req.isAuthenticated() && req.user.roles.indexOf(role) > -1) {
+    return (req, res, next) => {
+      if (req.isAuthenticated() && req.user.isInRole(`Admin`)) {
         next()
       } else {
         res.redirect('/users/login')
