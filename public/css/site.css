@@ -14,3 +14,6 @@ h1 {
 .menu li:after {
   content: "\00a0";
 }
+.font-3x {
+  font-size: 3em
+}
