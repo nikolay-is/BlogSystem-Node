@@ -6,10 +6,9 @@ module.exports = {
     let articleId = req.params.id
     let userId = req.user._id
     let reqComment = req.body
-    console.log(reqComment)
     let articleObj = {
       article: articleId,
-      comment: reqComment.content,
+      comment: reqComment.comment,
       author: userId
     }
     Comment.create(articleObj)
@@ -43,12 +42,45 @@ module.exports = {
       })
   },
   editPost: (req, res) => {
-
+    let id = req.params.id
+    let reqComment = req.body
+    Comment.findById(id)
+      .populate('author')
+      .then(comment => {
+        if (!req.user.isInRole('Admin') && !req.user.isAuthor(comment.article)) {
+          res.redirect('/users/login')
+        } else {
+          comment.comment = reqComment.comment
+          comment
+            .save()
+            .then(() => {
+              res.redirect(`/article/details/${comment.article}`)
+            })
+        }
+      })
   },
   deleteGet: (req, res) => {
+    let id = req.params.id
 
+    Comment.findById(id)
+      .populate('author')
+      .populate('article')
+      .then(comment => {
+        res.render('comment/delete', {
+          comment: comment
+        })
+      })
   },
   deletePost: (req, res) => {
-
+    let id = req.params.id
+    Comment.findByIdAndRemove(id)
+      .then(comment => {
+        Article.findByIdAndUpdate(comment.article, {
+          $pull: {'comments': {id: comment._id}}
+        })
+        .then(article => {
+          res.redirect(`/article/details/${article._id}`)
+        })
+      })
   }
 }

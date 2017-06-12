@@ -69,7 +69,7 @@ module.exports.seedAdminUser = () => {
     .then(user => {
       // console.log(`userlen: ${user.lenght}`)
       if (user) {
-        console.log(`Database has some Admin user`)
+        console.log(`Database has Admin user`)
         return // .lenght > 0
       }
       console.log(`Empty User in database!`)
